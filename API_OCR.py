@@ -1,8 +1,11 @@
-import requests
+import os
 
-def api_processar_imagem():
+import requests
+from dotenv import load_dotenv
+
+def api_processar_imagem(pwd):
     api_url = 'https://api.api-ninjas.com/v1/imagetotext'
-    image_file_descriptor = open('/home/jardel/PycharmProjects/MenuScan/image/image1.png', 'rb')
+    image_file_descriptor = open(pwd+'image1.png', 'rb')
     files = {'image': image_file_descriptor}
     r = requests.post(api_url, files=files, headers={'X-Api-Key': '/iNtdbywh4WWs64vexRvvQ==4w8nq2o1DF8KmXjx'})
 
@@ -12,4 +15,6 @@ def api_processar_imagem():
 
 
 if __name__ == '__main__':
-    api_processar_imagem()
+    load_dotenv()
+    secret = os.getenv("PATC_IMAGE")
+    api_processar_imagem(secret)
