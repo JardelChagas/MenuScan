@@ -14,7 +14,11 @@ def pegar_data_hora_ntp():
 def carregarCardapio():
     refeicoes = []
     with open("cardapio.csv", "r", newline="", encoding="utf-8") as arquivoCardapio:
-        for linha in arquivoCardapio:
+        for i,linha in enumerate(arquivoCardapio):
+
+            if i == 0:
+                continue
+
             linha = linha.strip()
 
             if not linha:
@@ -30,16 +34,34 @@ def carregarCardapio():
 
     return refeicoes
 
+def verificarRefeicoes(calendario, refeicoes):
+    data = str(brasil.date())
+    hora = brasil.time()
+
+    if hora.hour == 17 and hora.minute == 00:
+        for dataCardapio, periodo, itens in dados:
+            if dataCardapio == data and periodo == "Café da Manhã":
+                print(f"{periodo}")
+                print(f"{itens}")
+                print("-" * 40)
+
+    if hora.hour == 11 and hora.minute == 00:
+        for dataCardapio, periodo, itens in dados:
+            if dataCardapio == data and periodo == "Almoço":
+                print(f"{periodo}")
+                print(f"{itens}")
+                print("-" * 40)
+
+    if hora.hour == 17 and hora.minute == 00:
+        for dataCardapio, periodo, itens in dados:
+            if dataCardapio == data and periodo == "Jantar":
+                print(f"{periodo}")
+                print(f"{itens}")
+                print("-" * 40)
 
 if __name__ == '__main__':
     dados = carregarCardapio()
     agora = pegar_data_hora_ntp()
     brasil = agora - timedelta(hours=3)
 
-    data = brasil.date()
-    hora = brasil.time()
-
-    for data, periodo, itens in dados:
-        print(f"{periodo}")
-        print(f"{itens}")
-        print("-" * 40)
+    verificarRefeicoes(brasil, dados)
