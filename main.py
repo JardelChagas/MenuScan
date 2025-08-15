@@ -38,7 +38,7 @@ def verificarRefeicoes(calendario, refeicoes):
     data = str(brasil.date())
     hora = brasil.time()
 
-    if hora.hour == 17 and hora.minute == 00:
+    if hora.hour == 6 and hora.minute == 00:
         for dataCardapio, periodo, itens in dados:
             if dataCardapio == data and periodo == "Café da Manhã":
                 print(f"{periodo}")
