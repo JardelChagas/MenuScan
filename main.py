@@ -17,7 +17,7 @@ def carregarCardapio():
         for linha in arquivoCardapio:
             linha = linha.strip()
 
-            if not linha:  # pula linhas vazias
+            if not linha:
                 continue
 
             partesRefeicao = linha.split(",", 2)
