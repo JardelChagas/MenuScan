@@ -114,15 +114,8 @@ def criarArquivoCsv(texto_capturado):
     arquivo.close()
     return nome_arquivo
 
-if __name__ == '__main__':
-
-    # dados = carregarCardapio()
-    # agora = pegar_data_hora_ntp()
-    # brasil = agora - timedelta(hours=3)
-    #
-    # verificarRefeicoes(brasil, dados)
-
-    texto_cardapio = """
+def carregarPrompt():
+    return """
         Converta a tabela de cardápio que estou enviando para um arquivo CSV no seguinte formato:
 
         Três colunas: Dia, Horário e Itens.
@@ -140,6 +133,8 @@ if __name__ == '__main__':
         Retorne o CSV começando pelo cabeçalho Dia,Horário,Itens.
         """
 
+if __name__ == '__main__':
+    texto_cardapio = carregarPrompt()
     cardapio = chamarAPIChatGPT(texto_cardapio)        #DESCOMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
     #cardapio= "bf10a070-9c05-47c9-8c4d-0f9f0588c3fb.csv" #COMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
 
