@@ -1,0 +1,13 @@
+name: Menu Scan
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Executar script Python
+        env:
+          API_KEY_GPT: ${{ secrets.API_KEY_CHATGPT }}
+        run: python main.py
