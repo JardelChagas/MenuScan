@@ -1,0 +1,15 @@
+Converta a tabela de cardápio que estou enviando para um arquivo CSV no seguinte formato:
+
+Três colunas: Dia, Horário e Itens.
+
+A coluna Dia deve estar no formato AAAA-MM-DD.
+
+A coluna Horário deve ser um dos três valores: Café da Manhã, Almoço ou Jantar.
+
+A coluna Itens deve conter todos os dados dessa refeição concatenados no formato Categoria: valor; Categoria: valor; ..., mantendo a mesma ordem e nomes de categoria da tabela original.
+
+Inclua todas as categorias, mesmo que alguma esteja vazia (neste caso, apenas coloque o nome da categoria sem valor).
+
+Use vírgula como separador de colunas e envolva valores com aspas duplas quando necessário.
+
+Retorne o CSV começando pelo cabeçalho Dia,Horário,Itens.
