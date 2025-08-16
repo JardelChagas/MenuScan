@@ -80,7 +80,7 @@ def chamarAPIChatGPT(texto_cardapio):
 
 def carregarAPIKeyGPT():
     load_dotenv()
-    return os.getenv('API_KEY_GPT')
+    return os.getenv('API_KEY_CHATGPT')
 
 def carregarImagem():
     image_path = "./image/image1.png"

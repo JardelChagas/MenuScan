@@ -17,5 +17,5 @@ jobs:
           pip install -r requirements.txt
       - name: Executar script Python
         env:
-          API_KEY_GPT: ${{ secrets.API_KEY_CHATGPT }}  # Nome correto da variável
+          API_KEY_CHATGPT: ${{ secrets.API_KEY_CHATGPT }}  # Nome correto da variável
         run: python main.py
