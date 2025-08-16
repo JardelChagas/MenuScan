@@ -1,12 +1,11 @@
 import ntplib
+import os
+import base64
+import re
+import uuid
 from datetime import datetime, timezone, timedelta
 from dotenv import load_dotenv
 from openai import OpenAI
-import os
-import  base64
-import re
-import uuid
-
 
 def pegar_data_hora_ntp():
     try:
