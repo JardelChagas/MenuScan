@@ -204,3 +204,4 @@ if __name__ == '__main__':
     agora = pegar_data_hora_ntp()
     brasil = agora - timedelta(hours=3)
     verificarRefeicoes(brasil, dados)
+    teste
