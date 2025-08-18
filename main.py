@@ -192,7 +192,7 @@ def gerarTextoCardapio():
 
 if __name__ == '__main__':
 
-    texto_cardapio = gerarTextoCardapio
+    texto_cardapio = gerarTextoCardapio()
     cardapio = chamarAPIChatGPT(texto_cardapio)        #DESCOMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
     #cardapio= "3d41b058-164e-493b-9237-945aae068898.csv" #COMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
 
