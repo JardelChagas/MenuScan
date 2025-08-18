@@ -197,8 +197,8 @@ if __name__ == '__main__':
         O campo Itens deve conter todos os alimentos daquela refeição, no formato: Categoria: valor; Categoria: valor; Categoria: valor.
         """
 
-    #cardapio = chamarAPIChatGPT(texto_cardapio)        #DESCOMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
-    cardapio= "3d41b058-164e-493b-9237-945aae068898.csv" #COMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
+    cardapio = chamarAPIChatGPT(texto_cardapio)        #DESCOMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
+    #cardapio= "3d41b058-164e-493b-9237-945aae068898.csv" #COMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
 
     dados = carregarCardapio(cardapio)
     agora = pegar_data_hora_ntp()
