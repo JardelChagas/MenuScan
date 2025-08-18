@@ -36,19 +36,80 @@ def carregarCardapio(cardapio):
             if len(partesRefeicao) == 3:
                 data = partesRefeicao[0].strip()
                 periodo = partesRefeicao[1].strip()
-                itens = partesRefeicao[2].strip().replace(";", "\n")
+                itens_raw = partesRefeicao[2].strip()
+
+                itens = []
+                for item in itens_raw.split(";"):
+                    if ":" in item:
+                        categoria, valor = item.split(":", 1)
+                        itens.append((categoria.strip(), valor.strip()))
+
                 refeicoes.append([data, periodo, itens])
 
     return refeicoes
 
 def verificarRefeicoes(calendario, refeicoes):
-    data = str(brasil.date())
-    hora = brasil.time()
+    periodos = ["Café da Manhã", "Almoço", "Jantar"]
+    larguraColuna = 34
 
-    for dataCardapio, periodo, itens in dados:
-        print(f"{periodo, dataCardapio}")
-        print(f"{itens}")
-        print("-" * 40)
+    def imprimir_categoria_multilinha(categoria, periodo_refeicoes, max_por_linha=2):
+        linhas_por_data = []
+        for _, itens in periodo_refeicoes:
+            valor = next((v for c, v in itens if c == categoria), "")
+            itens_split = [x.strip() for x in valor.split(",")]
+
+            # Quebra em pedaços de max_por_linha itens
+            linhas = [", ".join(itens_split[i:i+max_por_linha]) for i in range(0, len(itens_split), max_por_linha)]
+            linhas_por_data.append(linhas)
+
+        max_linhas = max(len(linhas) for linhas in linhas_por_data)
+
+        for i in range(max_linhas):
+            if i == 0:
+                print(categoria.ljust(larguraColuna), end="")
+            else:
+                print("".ljust(larguraColuna), end="")
+            for linhas in linhas_por_data:
+                if i < len(linhas):
+                    print(linhas[i].ljust(larguraColuna), end="")
+                else:
+                    print("".ljust(larguraColuna), end="")
+            print()
+
+    for periodo in periodos:
+        periodo_refeicoes = [(dataCardapio, itens) for dataCardapio, p, itens in refeicoes if p.lower() == periodo.lower()]
+        if not periodo_refeicoes:
+            continue
+
+        print(f"\n{periodo}")
+
+        # Cabeçalho: Categoria + datas
+
+        datas = [data for data, _ in periodo_refeicoes]
+        print("Categoria".ljust(larguraColuna), end="")
+        for data in datas:
+            print(data.ljust(larguraColuna), end="")
+        print()
+
+        # Descobre todas as categorias únicas
+        categorias = set()
+        for _, itens in periodo_refeicoes:
+            for categoria, _ in itens:
+                categorias.add(categoria)
+        categorias = list(categorias)
+
+        # Imprime valores
+        for categoria in categorias:
+            if categoria.lower() == "acompanhamentos":
+                imprimir_categoria_multilinha(categoria, periodo_refeicoes)
+            else:
+                print(f"{categoria}".ljust(larguraColuna), end="")
+                for _, itens in periodo_refeicoes:
+                    valor = next((v for c, v in itens if c == categoria), "")
+                    print(valor.ljust(larguraColuna), end="")
+                print()
+
+
 
 def chamarAPIChatGPT(texto_cardapio):
     api_key_gpt = carregarAPIKeyGPT()
@@ -123,25 +184,21 @@ if __name__ == '__main__':
     # verificarRefeicoes(brasil, dados)
 
     texto_cardapio = """
-        Converta a tabela de cardápio que estou enviando para um arquivo CSV no seguinte formato:
+        Quero que você converta tabelas de cardápio em um arquivo CSV exatamente nesse formato:
 
-        Três colunas: Dia, Horário e Itens.
+        O arquivo deve ter três colunas: Dia, Horário, Itens.
 
-        A coluna Dia deve estar no formato AAAA-MM-DD.
+        Cada linha representa um período do dia (Café da Manhã, Almoço ou Jantar).
 
-        A coluna Horário deve ser um dos três valores: Café da Manhã, Almoço ou Jantar.
-
-        A coluna Itens deve conter todos os dados dessa refeição concatenados no formato Categoria: valor; Categoria: valor; ..., mantendo a mesma ordem e nomes de categoria da tabela original.
-
-        Inclua todas as categorias, mesmo que alguma esteja vazia (neste caso, apenas coloque o nome da categoria sem valor).
-
-        Use vírgula como separador de colunas e envolva valores com aspas duplas quando necessário.
-
-        Retorne o CSV começando pelo cabeçalho Dia,Horário,Itens.
+        O campo Dia deve estar no formato AAAA-MM-DD.
+        
+        O campo Horário deve ter apenas um destes três valores: Café da Manhã, Almoço, Jantar.
+        
+        O campo Itens deve conter todos os alimentos daquela refeição, no formato: Categoria: valor; Categoria: valor; Categoria: valor.
         """
 
-    cardapio = chamarAPIChatGPT(texto_cardapio)        #DESCOMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
-    #cardapio= "bf10a070-9c05-47c9-8c4d-0f9f0588c3fb.csv" #COMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
+    #cardapio = chamarAPIChatGPT(texto_cardapio)        #DESCOMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
+    cardapio= "3d41b058-164e-493b-9237-945aae068898.csv" #COMENTAR QUANDO FOR FAZER UMA CHAMDA REAL A API DO CHAT GPT
 
     dados = carregarCardapio(cardapio)
     agora = pegar_data_hora_ntp()
