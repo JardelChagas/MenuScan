@@ -6,6 +6,7 @@ import os
 import  base64
 import re
 import uuid
+import telebot
 
 
 def pegar_data_hora_ntp():
@@ -108,8 +109,6 @@ def verificarRefeicoes(calendario, refeicoes):
                     valor = next((v for c, v in itens if c == categoria), "")
                     print(valor.ljust(larguraColuna), end="")
                 print()
-
-
 
 def chamarAPIChatGPT(texto_cardapio):
     api_key_gpt = carregarAPIKeyGPT()
