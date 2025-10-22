@@ -6,7 +6,7 @@ import os
 import  base64
 import re
 import uuid
-import telebot
+#import telebot
 
 
 def pegar_data_hora_ntp():
@@ -163,6 +163,8 @@ def limparResultado(output_text):
         return None
 
 def criarArquivoCsv(texto_capturado):
+    os.makedirs("sheets/", exist_ok=True)
+
     nome_arquivo = str(uuid.uuid4()) + ".csv"
     linhas = texto_capturado.split('\n')
     with open("sheets/"+nome_arquivo, 'w', encoding='utf-8') as arquivo:
