@@ -1,8 +1,10 @@
+from main import chamarAPIChatGPT, gerarTextoCardapio, carregarImagem
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import base64
-from main import chamarAPIChatGPT, gerarTextoCardapio, carregarImagem  # importa suas funções existentes
+import os
 
 app = FastAPI()
 
@@ -30,7 +32,12 @@ async def chat(request: MessageRequest):
         # Processa imagem com GPT
         texto_cardapio = gerarTextoCardapio()
         cardapio = chamarAPIChatGPT(texto_cardapio)
-        return {"reply": f"Imagem processada com sucesso! Arquivo gerado: {cardapio}"}
+        file_path = f"./sheets/{cardapio}"
+
+        return {
+            "reply": "Imagem processada com sucesso! Clique abaixo para baixar o arquivo.",
+            "downloadUrl": f"http://127.0.0.1:8000/download/{cardapio}"
+        }
 
     elif request.text:
         # Aqui você pode colocar lógica para texto (ou chamar outro modelo GPT)
@@ -38,3 +45,10 @@ async def chat(request: MessageRequest):
 
     else:
         return {"reply": "Nenhuma mensagem recebida."}
+
+@app.get("/download/{filename}")
+async def download_file(filename: str):
+    file_path = f"./sheets/{filename}"
+    if not os.path.exists(file_path):
+        return {"error": "Arquivo não encontrado"}
+    return FileResponse(path=file_path, filename=filename)
